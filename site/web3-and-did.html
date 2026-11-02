@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web3 与 DID 的关系 - Web3 与 DID 入门</title>
+  <meta name="description" content="Web3 管资产和规则，DID 管身份：用一次出示可验证凭证的流程，说明两者如何配合、何时可以分开，以及私钥、吊销、隐私与监管上的局限。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <p class="site-title"><a href="index.html">Web3 与 DID</a></p>
+    <p class="site-tagline">用日常语言讲清去中心化网络与数字身份，不预设任何技术背景。</p>
+  </header>
+
+  <nav class="site-nav" aria-label="站内导航">
+    <ul>
+      <li><a href="what-is-web3.html">什么是 Web3</a></li>
+      <li><a href="what-is-did.html">什么是 DID</a></li>
+      <li><a href="web3-and-did.html" aria-current="page">Web3 与 DID 的关系</a></li>
+      <li><a href="glossary.html">术语表</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <article>
+      <h1>Web3 与 DID：账本管资产，印章管身份</h1>
+
+      <p>Web3 讲账本和钥匙：资产记在公开账上，能不能动由私钥决定。DID 讲印章和名片：身份自己生成，别人靠公开的 DID 文档核对签名。两者常被混为一谈，其实是两件事。</p>
+
+      <section>
+        <h2>两个问题：资产归谁，身份归谁</h2>
+        <p>Web3 回答「资产和规则由谁控制」：账本和程序公开，公司能不服务你，却改不掉那行记录。</p>
+        <p>DID 回答「身份由谁控制」：钱包和身份登记处由你自己掌握，平台能删账号，删不掉标识。</p>
+        <p>一起出现是因为互补：链上证明「地址归我」需要签名身份，凭证也需要防篡改的登记处，同一钱包便既装钥匙也装凭证。</p>
+        <p>但可以分开：联盟链只做结算，照旧用账号密码；DID 也能登记在政府目录上，不碰区块链。一起用是组合，不是定义。</p>
+      </section>
+
+      <section>
+        <h2>一次「出示可验证凭证」的流程</h2>
+        <p>假设你投简历，学校发过一份签名的学位凭证，存在钱包里。</p>
+        <ol>
+          <li><strong>钱包持有凭证。</strong>学校用私钥签发「某 DID 拥有某学位」，凭证只有内容、签发者 DID 和签名。</li>
+          <li><strong>网站发起请求。</strong>网站说明要哪些字段（学位、专业、毕业年份），附一次性随机数，防止旧回复被重放。</li>
+          <li><strong>只出示需要的字段。</strong>你勾掉成绩单、身份证号等无关项，再用私钥对这次出示签名——「出示证明，而不交出原件」。</li>
+          <li><strong>网站用 DID 文档验证。</strong>先解析学校 DID，取公钥核对凭证签名；再解析你的 DID，确认是你发出、随机数对得上。</li>
+          <li><strong>验签不必等发证机构。</strong>学校不必为每次验证开接口，网站拿到公开的 DID 文档就能核对签名；但凭证是否被吊销、是否过期，仍需查发证方发布的状态列表（见下文「凭证吊销」）。</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>两个场景</h2>
+        <h3>求职与学历验证</h3>
+        <p>核学历靠截图和人工，慢且易造假。学生领一次凭证，投十家公司出示十次，每次只给岗位需要的字段；面试背调仍省不掉。</p>
+        <h3>KYC 只证明「已成年」</h3>
+        <p>买酒、进网吧只需知道是否成年。银行签发只含「已满 18 岁」的凭证，生日留在钱包里，平台不必收身份证照片。反洗钱要实名时，该收的还得收。</p>
+      </section>
+
+      <section>
+        <h2>局限与风险</h2>
+        <p><strong>私钥管理。</strong>丢了没有找回密码，凭证越多，钱包越是单点故障。托管方便，却把身份交回中心；社交恢复更自主，流程也更复杂。</p>
+        <p><strong>凭证吊销。</strong>签名只证明签发时是真的。学位撤销、会员过期后旧凭证依然完好，网站每次都得查吊销列表，不查等于没吊销。</p>
+        <p><strong>隐私元数据。</strong>字段能少给，元数据不会消失——用了哪个 DID、什么时间、从哪解析文档，都能被记录关联。换 DID 能缓解，同一设备反复用仍会被串起来；链上记录永久，更像化名而非匿名。</p>
+        <p><strong>监管与互操作。</strong>实名制、反洗钱、电子签名责任都有明文规定，技术绕不开；DID 方法五花八门，跨钱包互通无定论，选错可能被厂商锁死。</p>
+      </section>
+
+      <section>
+        <h2>怎么判断一个方案</h2>
+        <p>问三个问题：资产和规则在谁手里？身份和凭证在谁手里？出事时谁能改、谁能救？答案都指向同一平台，就只是给 Web2 换层皮。</p>
+        <p>Web3 管账本，DID 管印章：合起来是「我的东西我说了算，我的身份我出示」，分开也各自成立。</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>本站为演示项目。</p>
+  </footer>
+</body>
+</html>
